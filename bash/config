@@ -13,14 +13,13 @@ function __git_dirty {
 }
 
 function __git_push_ready {
-  git status | grep 'ahead' &>/dev/null
+  git status 2>/dev/null | grep 'ahead' &>/dev/null 2>/dev/null
   if [ $? == 0 ]; then
     echo "[*]"
   else
-    echo " "
+    echo ""
   fi
 }
-
 
 function __git_branch {
   __git_ps1 " (%s)"
@@ -42,7 +41,7 @@ bash_prompt() {
   local UC=$W                 # user's color
   [ $UID -eq "0" ] && UC=$R   # root's color
 
-  PS1="$G\u@\h: $W$B\w$Y\$(__git_branch)$R\$(__git_dirty)$M\$(__git_dirty)${NONE}$ "
+  PS1="$G\u@\h: $W$B\w$Y\$(__git_branch)$M\$(__git_push_ready)$R\$(__git_dirty)${NONE}$ "
 }
 
 bash_prompt
